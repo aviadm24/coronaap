@@ -1,0 +1,1 @@
+web: gunicorn korona_crm.wsgi --log-file -
