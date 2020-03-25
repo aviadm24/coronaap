@@ -121,5 +121,8 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 print('project root: ', PROJECT_ROOT)
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 print('STATIC_ROOT: ', STATIC_ROOT)
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, "static"),
+)
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
