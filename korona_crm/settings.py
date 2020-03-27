@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import socket
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,14 +75,19 @@ WSGI_APPLICATION = 'korona_crm.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+ipaddress = socket.gethostbyname(socket.gethostname())
+print('ip_address:', ipaddress)
+if not ipaddress.startswith('172'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config()
 
 
 # Password validation
@@ -115,22 +122,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-print('project root: ', PROJECT_ROOT)
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-# print('STATIC_ROOT: ', STATIC_ROOT)
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, "static"),
-# )
-# STATIC_URL = '/static/'
-print('project root: ', BASE_DIR)
+# this is exactly what heroku recommends execpt changing staticfiles dirs to static not staticfiles!
+# print('project root: ', BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-print('STATIC_ROOT: ', STATIC_ROOT)
+# print('STATIC_ROOT: ', STATIC_ROOT)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+if ipaddress.startswith('172'):
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

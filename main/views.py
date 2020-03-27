@@ -2,10 +2,46 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from django.conf import settings
+import os
+import json
+import urllib.parse
+import re
 
 
 def index(request):
-	return render(request, 'main/index.html')
+    return render(request, 'main/corona.html')
+
+
+def login():
+    scopes = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    creds_dict = {}
+    try:
+        json_creds = os.getenv("GOOGLE_SHEETS_CREDS_JSON")
+        creds_dict = json.loads(json_creds)
+    except:
+        file_path = os.path.join(os.path.dirname(settings.BASE_DIR), 'client-secret.json')
+        print(file_path)
+        with open(file_path) as f:
+            creds_dict = json.load(f)
+    creds_dict["private_key"] = creds_dict["private_key"].replace("\\\\n", "\n")
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scopes)
+    client = gspread.authorize(creds)
+    return client
+
+# https://gspread.readthedocs.io/en/latest/api.html#gspread.models.Worksheet.duplicate
+def create_sheet(request):
+    client = login()
+    sh = client.create('coronaap spreadsheet')
+    sh.share('aviadm24@gmail.com', perm_type='user', role='writer')
+    return render(request, 'main/index.html')
+
+
+def copy_sheet(request):
+    client = login()
+    sh = client.copy('18fUM43kYh4Ac6kgNItlSKJbbjKhIoSCMGYqTCWqGUzk', title='new coronaap', )
+    sh.share('aviadm24@gmail.com', perm_type='user', role='writer')
+    return render(request, 'main/index.html')
 
 
 def aviad_sheets(id, status):
@@ -13,16 +49,8 @@ def aviad_sheets(id, status):
     # read that file for how to generate the creds and how to use gspread to read and write to the spreadsheet
 
     # use creds to create a client to interact with the Google Drive API
-    scopes = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
 
-    json_creds = os.getenv("GOOGLE_SHEETS_CREDS_JSON")
-
-    creds_dict = json.loads(json_creds)
-    creds_dict["private_key"] = creds_dict["private_key"].replace("\\\\n", "\n")
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scopes)
-    client = gspread.authorize(creds)
-
+    client = login()
     # Find a workbook by url
     korona_url = 'https://docs.google.com/spreadsheets/d/18fUM43kYh4Ac6kgNItlSKJbbjKhIoSCMGYqTCWqGUzk/edit#gid=2084856787'
     spreadsheet = client.open_by_url(korona_url)
@@ -49,11 +77,9 @@ def update_sheets(request):
         post_uft8 = request.body.decode("utf-8")
         print('post_uft8: ', post_uft8)
         try:
-            post = request.body
-            print('post: ', post)
             pars = post_uft8.split('&')
-            body = pars[1]
-            message = pr.unquote(pars[2].split('=')[1])
+            # body = pars[1]
+            message = urllib.parse.unquote(pars[2].split('=')[1])
             print('pars2: ', message)
             id = re.findall(r'\d+', str(message))[0] #  message.split(' ')[0]
             print('id: ', id)
