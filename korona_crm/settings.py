@@ -124,11 +124,11 @@ USE_TZ = True
 
 # this is exactly what heroku recommends execpt changing staticfiles dirs to static not staticfiles!
 # print('project root: ', BASE_DIR)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # print('STATIC_ROOT: ', STATIC_ROOT)
 STATIC_URL = '/static/'
 if ipaddress.startswith('172'):
     STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'staticfiles'),
+        os.path.join(BASE_DIR, 'static'),
     )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
