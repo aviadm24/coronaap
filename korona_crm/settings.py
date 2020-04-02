@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['coronaap.herokuapp.com','127.0.0.1', 'localhost',]
 
 INSTALLED_APPS = [
     'main',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

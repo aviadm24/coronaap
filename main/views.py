@@ -1,13 +1,68 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from django.conf import settings
+from django.http.response import JsonResponse
 import os
 import json
 import urllib.parse as pr
-from .models import Feedback
+from .models import Sms
 import re
+import clicksend_client
+from clicksend_client import SmsMessage
+from clicksend_client.rest import ApiException
+import ast
+
+configuration = clicksend_client.Configuration()
+configuration.username = 'pc.crumbs@gmail.com'
+configuration.password = 'CB6272BA-A570-5DAC-A86E-4236FF780AD4'
+api_instance = clicksend_client.SMSApi(clicksend_client.ApiClient(configuration))
+
+
+# {'number': number,
+#  'message_body': message_body,
+#  'schedule': schedule,
+#  'project_id': project_id
+#  }
+@csrf_exempt
+def send_sms(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        number = data['number']
+        message_body = data['message_body']
+        schedule = data['schedule']
+        project_id = data['project_id']
+        status = '0'
+        sms_message = SmsMessage(source="api", body=message_body, to="+972{}".format(number), schedule=schedule)
+        sms_messages = clicksend_client.SmsMessageCollection(messages=[sms_message])
+
+        try:
+            api_response = ast.literal_eval(api_instance.sms_send_post(sms_messages))
+            message_id = api_response["data"]["messages"][0]["message_id"]
+            if schedule and project_id:
+                # genesral_dict[sn] = (number, message_id)
+                sms = Sms()
+                sms.number = number
+                sms.message_id = message_id
+                sms.project_id = project_id
+                sms.status = status
+                sms.save()
+        except ApiException as e:
+            print("Exception when calling SMSApi->sms_send_post: {}\n".format(e))
+        return HttpResponse('')
+
+@csrf_exempt
+def cancel_sms(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        project_id = data['project_id']
+        sms = Sms.objects.get(project_id=project_id)
+        message_id = sms.message_id
+        api_response = api_instance.sms_cancel_by_message_id_put(message_id)
+        print('api_response: ', api_response)
+        return HttpResponse('')
 
 
 def index(request):
@@ -30,6 +85,7 @@ def login():
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scopes)
     client = gspread.authorize(creds)
     return client
+
 
 # https://gspread.readthedocs.io/en/latest/api.html#gspread.models.Worksheet.duplicate
 def create_sheet(request):
@@ -81,18 +137,27 @@ def aviad_sheets(id, status):
 
 
 
+def check_status(text):
+    if "טופל" in text:
+        return '2'
+    elif "נוצר" in text:
+        return '1'
+    elif "ממתין" in text:
+        return '0'
+    else:
+        return '3'
+
+
 @csrf_exempt
 def update_sheets(request):
     if request.method == 'POST':
         post_uft8 = request.body.decode("utf-8")
-        print('post_uft8: ', post_uft8)
+        # print('post_uft8: ', post_uft8)
         try:
-            post = request.body
-            print('post: ', post)
             pars = post_uft8.split('&')
-            body = pars[1]
+            # body = pars[1]
             message = pr.unquote(pars[2].split('=')[1])
-            print('pars2: ', message)
+            # print('pars2: ', message)
             id = re.findall(r'\d+', str(message))[0] #  message.split(' ')[0]
             print('id: ', id)
             status = message.replace(id, '').strip()
@@ -107,7 +172,7 @@ def update_sheets(request):
             aviad_sheets(id=id, status=status)
         print("id: ", id)
         print("status: ", status)
-        Feedback.objects.update_or_create(
+        Sms.objects.update_or_create(
             project_id=id,
             status=check_status(str(status))
         )
@@ -120,16 +185,16 @@ def update_sheets(request):
         aviad_sheets(id=None, status=None)
         return render(request, 'home/list.html')
 
-
-@csrf_exempt
-def check_update(request):
-    if request.method == 'POST':
-        data = request.body.decode("utf-8")
-        print('req: ', data)
-        # id = re.findall(r'\d+', str(data))[0]
-        try:
-            status = Feedback.objects.get(project_id=str(data)).status
-            print('status: ', status)
-            return JsonResponse({'success': True, 'status': str(status)})
-        except:
-            return JsonResponse({'success': False, 'status': '3'})
+# not in use
+# @csrf_exempt
+# def check_update(request):
+#     if request.method == 'POST':
+#         data = request.body.decode("utf-8")
+#         print('req: ', data)
+#         # id = re.findall(r'\d+', str(data))[0]
+#         try:
+#             status = Feedback.objects.get(project_id=str(data)).status
+#             print('status: ', status)
+#             return JsonResponse({'success': True, 'status': str(status)})
+#         except:
+#             return JsonResponse({'success': False, 'status': '3'})

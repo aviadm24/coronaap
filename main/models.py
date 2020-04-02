@@ -5,29 +5,14 @@ from django.db import models
 # heroku pg:backups:capture --app caneti
 # heroku pg:backups:restore caneti::{id - like b141} DATABASE_URL --app caneti-staging
 
-
-class User_tokens(models.Model):
-    name = models.CharField(max_length=100)
-    refresh_token = models.CharField(max_length=100)
-    phone = models.CharField(max_length=20)
-    email = models.EmailField()
-    state_key = models.CharField(max_length=100)
+# https://stackoverflow.com/questions/4733609/how-do-i-clone-a-django-model-instance-object-and-save-it-to-the-database
 
 
-    def __str__(self):
-        return self.name
-
-
-class Feedback(models.Model):
+class Sms(models.Model):
+    number = models.CharField(max_length=100)
+    message_id = models.CharField(max_length=100)
     project_id = models.CharField(max_length=100)
     status = models.CharField(max_length=100)
 
     def __str__(self):
         return self.project_id
-
-
-class Time(models.Model):
-    time = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.time
