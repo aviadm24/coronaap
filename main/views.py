@@ -184,10 +184,10 @@ def update_sheets(request):
         # fb.project_id = id
         # fb.status = check_status(str(status))
         # fb.save()
-        return render(request, 'home/list.html')
+        return HttpResponse('')
     else:
         aviad_sheets(id=None, status=None)
-        return render(request, 'home/list.html')
+        return HttpResponse('')
 
 # not in use
 # @csrf_exempt
