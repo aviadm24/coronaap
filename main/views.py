@@ -30,11 +30,14 @@ api_instance = clicksend_client.SMSApi(clicksend_client.ApiClient(configuration)
 def send_sms(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
+        print("data: ", data)
         number = data['number']
         message_body = data['message_body']
         schedule = data['schedule']
         project_id = data['project_id']
         status = '0'
+        print("number: ", number)
+        print("project_id: ", project_id)
         sms_message = SmsMessage(source="api", body=message_body, to="+972{}".format(number), schedule=schedule)
         sms_messages = clicksend_client.SmsMessageCollection(messages=[sms_message])
 
@@ -49,6 +52,7 @@ def send_sms(request):
                 sms.project_id = project_id
                 sms.status = status
                 sms.save()
+            print("success!")
         except ApiException as e:
             print("Exception when calling SMSApi->sms_send_post: {}\n".format(e))
         return HttpResponse('')
