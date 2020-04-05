@@ -168,12 +168,18 @@ def update_sheets(request):
             print('status: ', status)
             for s in ['טופל', 'ממתין', 'נוצר קשר', 'וידוא משימה']:
                 if status in s:
-                    aviad_sheets(id=id, status=status)
+                    try:
+                        aviad_sheets(id=id, status=status)
+                    except Exception as e:
+                        print("exeption: ", e)
         except:
             # id = re.findall(r'\d+', str(post))[0]
-            id = post_uft8.split(' ')[0]
-            status = post_uft8.split(' ')[1]
-            aviad_sheets(id=id, status=status)
+            try:
+                id = post_uft8.split(' ')[0]
+                status = post_uft8.split(' ')[1]
+                aviad_sheets(id=id, status=status)
+            except:
+                pass
         print("id: ", id)
         print("status: ", status)
         Sms.objects.update_or_create(
