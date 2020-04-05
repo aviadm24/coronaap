@@ -16,8 +16,8 @@ from clicksend_client.rest import ApiException
 import ast
 
 configuration = clicksend_client.Configuration()
-configuration.username = 'pc.crumbs@gmail.com'
-configuration.password = 'CB6272BA-A570-5DAC-A86E-4236FF780AD4'
+configuration.username = os.getenv("CLICK_SEND_USERNAME")
+configuration.password = os.getenv("CLICK_SEND_PASSWORD")
 api_instance = clicksend_client.SMSApi(clicksend_client.ApiClient(configuration))
 
 
@@ -71,7 +71,7 @@ def cancel_sms(request):
 
 def index(request):
     # https: // bootsnipp.com / snippets / ZXKKD
-    return render(request, 'main/corona.html')
+    return render(request, 'main/index.html')
 
 
 def login():
@@ -180,10 +180,14 @@ def update_sheets(request):
             project_id=id,
             status=check_status(str(status))
         )
-        # fb = Feedback()
-        # fb.project_id = id
-        # fb.status = check_status(str(status))
-        # fb.save()
+        if status in 'טופל':
+            try:
+                sms = Sms.objects.get(project_id=id)
+                message_id = sms.message_id
+                api_response = api_instance.sms_cancel_by_message_id_put(message_id)
+                print("res: ", api_response)
+            except Exception as e:
+                print("exeption: ", e)
         return HttpResponse('')
     else:
         aviad_sheets(id=None, status=None)
