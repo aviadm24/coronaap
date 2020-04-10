@@ -160,7 +160,7 @@ def incoming_sms(request):
         project_id, status = get_project_id_and_message(data)
         # update status in spreadsheet or exit if there"s a problem
         if id and status in ["טופל", "ממתין", "נוצר קשר", "וידוא משימה"]:
-            print("Incoming SMS with ID: {}, Status: {}".format(id, status))
+            print("Incoming SMS with ID: {}, Status: {}".format(project_id, status))
             update_spreadsheet(id=project_id, status=status)
         else:
             print("Invalid SMS")
