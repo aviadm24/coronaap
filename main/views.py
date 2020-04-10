@@ -165,14 +165,14 @@ def check_status(text):
 @csrf_exempt
 def update_sheets(request):
     if request.method == 'POST':
-        post_uft8 = request.body.decode("utf-8")
-        # print('post_uft8: ', post_uft8)
+        post_uft8 = request.body.decode('utf-8')
+        print('post_uft8: ', post_uft8)
         try:
+            print('in try clause')
             pars = post_uft8.split('&')
-            # body = pars[1]
             message = pr.unquote(pars[2].split('=')[1])
-            # print('pars2: ', message)
-            id = re.findall(r'\d+', str(message))[0] #  message.split(' ')[0]
+            print('message: ', message)
+            id = re.findall(r'\d+', str(message))[0]
             print('id: ', id)
             status = message.replace(id, '').strip()
             print('status: ', status)
@@ -181,17 +181,17 @@ def update_sheets(request):
                     try:
                         aviad_sheets(id=id, status=status)
                     except Exception as e:
-                        print("exeption: ", e)
+                        print("exception: ", e)
         except:
-            # id = re.findall(r'\d+', str(post))[0]
             try:
+                print('in except clause')
                 id = post_uft8.split(' ')[0]
                 status = post_uft8.split(' ')[1]
+                print("id: ", id)
+                print("status: ", status)
                 aviad_sheets(id=id, status=status)
             except:
                 pass
-        print("id: ", id)
-        print("status: ", status)
         Sms.objects.update_or_create(
             project_id=id,
             status=check_status(str(status))
@@ -203,7 +203,7 @@ def update_sheets(request):
                 api_response = api_instance.sms_cancel_by_message_id_put(message_id)
                 print("res: ", api_response)
             except Exception as e:
-                print("exeption: ", e)
+                print("exception: ", e)
         return HttpResponse('')
     else:
         aviad_sheets(id=None, status=None)
