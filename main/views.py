@@ -134,7 +134,7 @@ def update_spreadsheet(id, status):
     STATUS_COLUMN = "P"
     list_of_ids = sheet.col_values(ID_COLUMN)
     if id in list_of_ids:
-        id_row_number = str(list_of_ids.index(i) + 1)
+        id_row_number = str(list_of_ids.index(id) + 1)
         sheet.update_acell(STATUS_COLUMN+id_row_number, status)
 
 
