@@ -45,13 +45,24 @@ def send_sms(request):
             api_response = ast.literal_eval(api_instance.sms_send_post(sms_messages))
             message_id = api_response["data"]["messages"][0]["message_id"]
             if schedule and project_id:
-                # genesral_dict[sn] = (number, message_id)
-                sms = Sms()
-                sms.number = number
-                sms.message_id = message_id
-                sms.project_id = project_id
-                sms.status = status
-                sms.save()
+                # check if message id exists
+                try:
+                    sms = Sms.objects.filter(project_id=project_id)
+                    old_message_id = sms.message_id
+                    # cancel old message if there is one
+                    api_response = api_instance.sms_cancel_by_message_id_put(old_message_id)
+                    print('api_response: ', api_response)
+                    # update new message id
+                    sms.message_id = message_id
+
+                # no object satisfying query exists
+                except:
+                    sms = Sms()
+                    sms.number = number
+                    sms.message_id = message_id
+                    sms.project_id = project_id
+                    sms.status = status
+                    sms.save()
             print("success!")
         except ApiException as e:
             print("Exception when calling SMSApi->sms_send_post: {}\n".format(e))
@@ -132,13 +143,12 @@ def aviad_sheets(id, status):
     # rows = sheet.get_all_records()
     # print(rows)
     values_list = sheet.col_values(1)
-    print(values_list)
+    # print(values_list)
     index = None
     for i in values_list:
         if i == id:
             index = values_list.index(i)
     sheet.update_acell('P' + str(index + 1), status)
-
 
 
 def check_status(text):
@@ -198,6 +208,7 @@ def update_sheets(request):
     else:
         aviad_sheets(id=None, status=None)
         return HttpResponse('')
+
 
 # not in use
 # @csrf_exempt
