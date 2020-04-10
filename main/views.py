@@ -156,7 +156,7 @@ def incoming_sms(request):
     if request.method == "POST":
         # parse body and get SMS data (id, status)
         post_body_uft8 = request.body.decode("utf-8")
-        data = dict(urllib.parse.parse_qsl(post_body_uft8))
+        data = dict(pr.parse_qsl(post_body_uft8))
         project_id, status = get_project_id_and_message(data)
         # update status in spreadsheet or exit if there"s a problem
         if id and status in ["טופל", "ממתין", "נוצר קשר", "וידוא משימה"]:
