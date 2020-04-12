@@ -164,7 +164,7 @@ def incoming_sms(request):
             update_spreadsheet(id=project_id, status=status)
         else:
             print("Invalid SMS")
-            return
+            return HttpResponse("")
 
         # if task was completed - cancel an SMS reminder (if exists)
         if status == "טופל":
