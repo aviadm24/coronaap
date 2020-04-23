@@ -74,7 +74,7 @@ def cancel_sms(request):
 
 def index(request):
     # https: // bootsnipp.com / snippets / ZXKKD
-    return render(request, "main/index.html")
+    return render(request, "main/yom.html")
 
 
 def login():

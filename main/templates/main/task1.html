@@ -1,0 +1,11 @@
+{% extends "main/yom.html" %}
+{% block task %}
+{% load static %}
+<div dir="rtl" text-align="right">
+    <iframe src="{% static 'images/meydahair.pdf' %}"
+    style="width:600px; height:500px;" frameborder="0">
+</iframe>
+<!--    <embed src="{% static 'images/meydahair.pdf' %}" width="800px" height="2100px" />-->
+    <img src="{% static 'images/zinorot.png' %}">
+</div>
+{% endblock %}
