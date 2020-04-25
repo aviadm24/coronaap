@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	
 //	var questionBank=new Array;
-	var questionBank= [['שלום', 'akuo'],['להתראות', 'lkjhlkj']];
+	var questionBank= [['ילשקמע', '']];
 	var wordArray=new Array;
 	var previousGuesses=new Array;
  	var currentWord;
@@ -21,7 +21,7 @@ $(document).ready(function () {
 //		})//gtjson
  
 function titleScreen(){
-	$('#gameContent').append('<div id="gameTitle">HANGMAN</div><div id="startButton" class="button">BEGIN</div>');		
+	$('#gameContent').append('<div id="gameTitle">הפתרון</div><div id="startButton" class="button">התחילו</div>');
 	$('#startButton').on("click",function (){gameScreen()});
 }//display game
 	
@@ -32,7 +32,7 @@ function gameScreen(){
 	//$('#gameContent').append('<div id="pixHolder"><img id="hangman" src="man.png"></div>');
 	$('#gameContent').append('<div id="wordHolder"></div>');
 	$('#gameContent').append('<div id="clueHolder"></div>');
-	$('#gameContent').append('<div id="guesses">Previous guesses:</div>');
+	$('#gameContent').append('<div id="guesses">נסיונות:</div>');
 	$('#gameContent').append('<div id="feedback"></div>');
 	//$('#gameContent').append('<form><input type="text" id="dummy" ></form>');
 			
@@ -42,10 +42,16 @@ function gameScreen(){
 	previousGuesses=[];
 			 
 	for(i=0;i<numberOfTiles;i++){
-		$('#wordHolder').append('<div class="tile" id=t'+i+'></div>');
+	    if (i == 2){
+	        $('#wordHolder').append('<input class="tile" id=t'+i+'>');
+	        $('#wordHolder').append('<div class="tile"> - </div>');
+	    }else{
+	        $('#wordHolder').append('<input class="tile" id=t'+i+'>');
+	    }
+
 	}
 			
-	$('#clueHolder').append("HINT: "+currentClue);
+//	$('#clueHolder').append("HINT: "+currentClue);
  
  	
 	$(document).on("keypress",handleKeyUp);
@@ -99,7 +105,8 @@ function checkAnswer(){
 	var currentAnswer="";	
 	for(i=0;i<currentWord.length;i++){
 		currentAnswer+=($('#t'+i).text());
-	}		
+	}
+	console.log(currentAnswer)
 	if(currentAnswer==currentWord){
 		victoryMessage();
 	};
@@ -117,7 +124,7 @@ function wrongAnswer(a){
 function victoryMessage(){
 	document.activeElement.blur();
 	$(document).off("keyup", handleKeyUp);
-	$('#feedback').append("CORRECT!<br><br><div id='replay' class='button'>CONTINUE</div>");
+	$('#feedback').append("הצלחתם!<br><br><a href='' id='replay' class='button'>המשיכו</a>");
 	$('#replay').on("click",function (){
 		if(questionBank.length>0){
 			gameScreen()}
