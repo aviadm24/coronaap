@@ -74,8 +74,8 @@ def cancel_sms(request):
 
 def index(request):
     # https: // bootsnipp.com / snippets / ZXKKD
-    return render(request, "main/yom.html")
-
+    # return render(request, "main/yom.html")
+    return render(request, "main/notyet.html")
 
 def login():
     scopes = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
