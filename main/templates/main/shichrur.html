@@ -1,0 +1,16 @@
+{% extends "main/yom.html" %}
+{% block task %}
+{% load static %}
+<div dir="rtl" text-align="right">
+<!--    https://stackoverflow.com/questions/44229476/replacing-underscores-with-letters-of-corresponding-word-in-hangman-game-in-java-->
+    <h2>קטע מעיתון בית שאן</h2>
+    <img src="{% static 'images/meyda.png' %}">
+    <h2>איפה במפה נמצאת החידה הבאה?</h2>
+    <p>_ _ - _ _ _ - _ _ _</p>
+    {% include "main/checkAnswer.html" %}
+    <div id="success2" align="center">
+    <a href="/shichrur2" background-color="red">שלב ב</a>
+    </div>
+    <div id="fail2" align="center">נסו שוב</div>
+</div>
+{% endblock %}

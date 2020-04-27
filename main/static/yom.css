@@ -118,3 +118,17 @@
     height:500px;
     width:500px;
 }
+
+#map {
+    height:90vh;
+    width:100vw;
+}
+
+#atbash{
+    height:60%;
+    width:60%;
+}
+
+#success, #fail, #success2, #fail2{
+    display: none;
+}

@@ -6,13 +6,34 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="{% static 'letterInput.js' %}"></script>
     <script src="{% static 'moveImage.js' %}"></script>
     <link href="{% static 'yom.css' %}" rel="stylesheet">
     <link href="{% static 'letterInput.css' %}" rel="stylesheet">
     <!--    https://bootsnipp.com/snippets/nNX3a-->
     <!------ Include the above in your HEAD tag ---------->
-
+    <script>
+        // wait for the DOM to be loaded
+        $(document).ready(function() {
+            // bind 'myForm' and provide a simple callback function
+            $('#myForm').ajaxForm(function() {
+                var ans = $('#ans').val();
+                console.log(ans == 'ים השיבולים');
+                var url = window.location.pathname;
+                console.log(url.includes('tarbut1'));
+                //alert("ans: "+ans == '40');
+                if (ans == '40' & url.includes('gvura')){$('#success').show();$('#fail').hide();}else if (url.includes('gvura')){$('#fail').show()}
+                if (ans == '70' & url.includes('hapoelBeitShean')){$('#success').show();$('#fail').hide();}else if (url.includes('hapoelBeitShean')){$('#fail').show()}
+                if (ans == '100' & url.includes('semel')){$('#success').show();$('#fail').hide();}else if (url.includes('semel')){$('#fail').show()}
+                if (ans == '300' & url.includes('nofey')){$('#success').show();$('#fail').hide();}else if (url.includes('nofey')){$('#fail').show()}
+                if (ans == '30' & url.includes('tarbut2')){$('#success').show();$('#fail').hide();}else if (url.includes('tarbut2')){$('#fail').show()}
+                if (ans == '10' & url.includes('shichrur2')){$('#success').show();$('#fail').hide();}else if (url.includes('shichrur2')){$('#fail').show()}
+                if (ans == 'ים השיבולים' & url.includes('tarbut1')){$('#success2').show();$('#fail2').hide();}else if (url.includes('tarbut1')){$('#fail2').show()}
+                if (ans == 'תל בית שאן' & url.includes('shichrur1')){$('#success2').show();$('#fail2').hide();}else if (url.includes('shichrur1')){$('#fail2').show()}
+            });
+        });
+    </script>
     <title>משחק יום העצמאות בית שאן</title>
 </head>
 <body dir="rtl">
@@ -26,38 +47,28 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/">
           <i class="fa fa-home"></i>
           דף הבית
           <span class="sr-only">(current)</span>
           </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task1">
+        <a class="nav-link" href="/hapoelBeitShean">
           <i class="fa fa-envelope-o">
-<!--            <span class="badge badge-danger">11</span>-->
           </i>
-          שחרור בית שאן
+          הפועל בית שאן
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task2">
+        <a class="nav-link" href="/gvura">
           <i class="fa fa-envelope-o">
-<!--            <span class="badge badge-danger">11</span>-->
-          </i>
-          תרבות
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/task3">
-          <i class="fa fa-envelope-o">
-<!--            <span class="badge badge-danger">11</span>-->
           </i>
           גבורה
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task4">
+        <a class="nav-link" href="/semel">
           <i class="fa fa-envelope-o">
 <!--            <span class="badge badge-danger">11</span>-->
           </i>
@@ -65,7 +76,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task5">
+        <a class="nav-link" href="/nofey">
           <i class="fa fa-envelope-o">
 <!--            <span class="badge badge-danger">11</span>-->
           </i>
@@ -73,15 +84,27 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task6">
+        <a class="nav-link" href="/tarbut1">
           <i class="fa fa-envelope-o">
 <!--            <span class="badge badge-danger">11</span>-->
           </i>
-          הפועל בית שאן
+          תרבות
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/task7">
+        <a class="nav-link" href="/shichrur1">
+          <i class="fa fa-envelope-o">
+<!--            <span class="badge badge-danger">11</span>-->
+          </i>
+          שחרור בית שאן
+        </a>
+      </li>
+
+
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="/pitaron">
           <i class="fa fa-envelope-o">
 <!--            <span class="badge badge-danger">11</span>-->
           </i>

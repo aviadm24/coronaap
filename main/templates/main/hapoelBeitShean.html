@@ -1,0 +1,12 @@
+{% extends "main/yom.html" %}
+{% block task %}
+{% load static %}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lTBtj2CzHgU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<div dir="rtl" text-align="right">
+    <h2>השתמשו ברמז הבא כדי לגלות את פתרון החידה:</h2>
+    <img src="{% static 'images/hapoelBeitShean.png' %}">
+    {% include "main/checkAnswer.html" %}
+</div>
+<
+{% endblock %}
