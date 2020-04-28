@@ -16,4 +16,6 @@ urlpatterns = [
     path('tarbut2/', TemplateView.as_view(template_name="main/tarbut2.html")),
     path('pitaron/', TemplateView.as_view(template_name="main/pitaron.html")),
     path('nofey/', TemplateView.as_view(template_name="main/nofey.html")),
+    path('horaot/', TemplateView.as_view(template_name="main/horaot.html")),
+    path('signup/', views.signup, name='signup'),
 ]

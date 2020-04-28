@@ -21,7 +21,7 @@
 <body dir="rtl">
 
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">?</a>
+  <a class="navbar-brand" href="/horaot">הוראות</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -143,8 +143,27 @@
 
 <container dir="rtl" class="text-right">
     {% block task %}{% endblock %}
+    {% block signup %}{% endblock %}
 </container>
 
-
+<script>
+    $(document).ready(function() {
+    var co = '';
+    $("img").on("click", function(event) {
+        var x = event.pageX - this.offsetLeft;
+        var y = event.pageY - this.offsetTop;
+        co = co +x+','+y+',';
+        alert("X Coordinate: " + x + " Y Coordinate: " + y+'co: '+co);
+        });
+    });
+    $("#tarbut").on("click", function(e){
+        e.preventDefault();
+        alert('צריך להתחיל בצופן א"ת ב"ש');
+    });
+    $("#shichrur").on("click", function(e){
+        e.preventDefault();
+        alert('צריך להתחיל במידע העיר');
+    });
+</script>
 </body>
 </html>

@@ -2,6 +2,40 @@
 {% block task %}
 {% load static %}
 <div>
-    <img src="{% static 'images/map.png' %}" id="map">
+    <map name="infographic">
+    <area shape="poly" coords="541,266,588,215,607,232,558,307"
+          href="/tarbut1"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="764,137,780,152,750,195,726,168"
+          href="/" id="shichrur"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="891,168,910,182,874,230,854,208"
+          href="/hapoelBeitShean"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="813,283,832,297,796,350,772,336"
+          href="/shichrur1"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="744,355,758,366,723,408,699,381"
+          href="/gvura"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="850,380,867,396,822,462,802,445"
+          href="" id="tarbut"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="971,583,991,600,952,681,895,636"
+          href="/nofey"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="571,577,587,590,547,686,512,631"
+          href="/semel"
+          target="_blank" alt="HTML" />
+<!--    <area shape="poly" coords="130,147,130,228,6,219,59,107"-->
+<!--          href="https://developer.mozilla.org/docs/Web/CSS"-->
+<!--          target="_blank" alt="CSS" />-->
+<!--    <area shape="poly" coords="130,147,200,107,130,4,59,107"-->
+<!--          href="https://developer.mozilla.org/docs/Web/JavaScript"-->
+<!--          target="_blank" alt="JavaScript" />-->
+</map>
+<img usemap="#infographic" src="{% static 'images/map.png' %}" alt="beit shean map" id="map" />
+
+<!--    <img src="{% static 'images/map.png' %}" id="map">-->
 </div>
 {% endblock %}

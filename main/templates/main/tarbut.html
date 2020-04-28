@@ -5,10 +5,11 @@
 <h2>פתרו את צופן הא"ת ב"ש</h2>
     <img src="{% static 'images/atbash.png' %}" id="atbash">
 <h2>מה השיר שיצחק קינן כתב שמתאים לזמן בשנה בו אנחנו נמצאים?</h2>
-    {% include "main/checkAnswer.html" %}
-    <div id="success2" align="center">
-    <a href="/tarbut2" background-color="red">שלב ב</a>
+    <div id="success2" align="center">צדקתם! עברו ל:
+    <a href="/tarbut2" id="next">שלב ב</a>
     </div>
     <div id="fail2" align="center">נסו שוב</div>
+    {% include "main/checkAnswer.html" %}
+
 </div>
 {% endblock %}

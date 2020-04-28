@@ -1,0 +1,10 @@
+{% extends 'main/yom.html' %}
+
+{% block signup %}
+  <h2>רישום</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">הרשמו להגרלה</button>
+  </form>
+{% endblock %}

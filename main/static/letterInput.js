@@ -124,14 +124,20 @@ function checkAnswer(){
 	}else if (currentAnswer==almost){
 	    victoryMessage(almostAnswer);
 	}else{
-	    wrongAnswer();
+	    wrongAnswer(currentAnswer);
     };
 }//checkanswer
 		
-function wrongAnswer(){
+function wrongAnswer(currentAnswer){
 	wrongAnswerCount++;
+	$('#guesses').append(currentAnswer+ " ,");
 	$('#feedback').empty();
 	$('#feedback').append("<br>נסו שוב<br>");
+	$('#feedback').append("<a id='check' class='button'>בדוק</a>");
+    $('#check').on("click",function (){
+	    //console.log('here')
+		checkAnswer();
+	});
 //	var pos=(wrongAnswerCount*-75) +"px"
 //	$('#guesses').append("  "+a);
 //	$('#hangman').css("left",pos);
@@ -175,6 +181,7 @@ function defeatMessage(){
 function finalPage(){
 	$('#gameContent').empty();
 	$('#gameContent').append('<div id="finalMessage">תודה רבה ששיחקתם יום עצמאות שמח!</div>');
+	$('#gameContent').append('<a href="/signup" align="center">הרשמו להגרלה!</a>');
 }//finalpage
 	
 	});//doc ready

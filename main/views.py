@@ -1,5 +1,7 @@
 # coding=utf-8
-from django.shortcuts import render
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import gspread
@@ -9,7 +11,8 @@ from django.http.response import JsonResponse
 import os
 import json
 import urllib.parse as pr
-from .models import Sms
+from .models import Sms, user
+from .forms import userForm
 import re
 import clicksend_client
 from clicksend_client import SmsMessage
@@ -76,6 +79,21 @@ def index(request):
     # https: // bootsnipp.com / snippets / ZXKKD
     # return render(request, "main/map.html")
     return render(request, "main/notyet.html")
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = userForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # username = form.cleaned_data.get('username')
+            # raw_password = form.cleaned_data.get('password1')
+            # user = authenticate(username=username, password=raw_password)
+            # login(request, user)
+            return redirect('index')
+    else:
+        form = userForm()
+    return render(request, 'main/signup.html', {'form': form})
 
 
 def login():
