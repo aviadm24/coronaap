@@ -1,11 +1,11 @@
 $(document).ready(function () {
 	
 //	var questionBank=new Array;
-	var questionBank= [['ילשקמע', '']];
+	var questionBank= [['עמקשלי', 'כל הכבוד הצלחתם'], [70401003003010,'נשאר לכם עוד צעד אחד לפתרון']];
 	var wordArray=new Array;
 	var previousGuesses=new Array;
- 	var currentWord;
-	var currentClue;
+ 	var currentWord, almost;
+	var currentClue, almostAnswer;
 	var wrongAnswerCount;
 	titleScreen();
  
@@ -50,20 +50,27 @@ function gameScreen(){
 	    }
 
 	}
+	$('#feedback').append("<br><br><a id='check' class='button'>בדוק</a>");
+	$('#check').on("click",function (){
+	    //console.log('here')
+		checkAnswer();
+	});
 			
 //	$('#clueHolder').append("HINT: "+currentClue);
  
  	
-	$(document).on("keypress",handleKeyUp);
-	$(document).on("click",function(){$('#dummy').focus();});
-	$('#dummy').focus();
+//	$(document).on("keypress",handleKeyUp);
+//	$(document).on("click",function(){$('#dummy').focus();});
+//	$('#dummy').focus();
 }//gamescreen
 			
 			
 function getWord(){
 	var rnd=Math.floor(Math.random()*questionBank.length);
-	currentWord=questionBank[rnd][0];
-	currentClue=questionBank[rnd][1];
+	currentWord=questionBank[0][0];
+	currentClue=questionBank[0][1];
+	almost = questionBank[1][0];
+	almostAnswer = questionBank[1][1];
 	questionBank.splice(rnd,1); 
 	wordArray=currentWord.split("");
 	console.log("word array: "+wordArray)
@@ -103,31 +110,53 @@ function handleKeyUp(event) {
 
 function checkAnswer(){
 	var currentAnswer="";	
-	for(i=0;i<currentWord.length;i++){
-		currentAnswer+=($('#t'+i).text());
+	for(i=(currentWord.length)-1;i>=0;i--){
+	    //console.log(i)
+	    //console.log($('#t'+i).val())
+		currentAnswer+=($('#t'+i).val());
 	}
 	console.log(currentAnswer)
+	console.log(almost)
+	console.log(almost==currentAnswer)
+	console.log(currentWord==currentAnswer)
 	if(currentAnswer==currentWord){
-		victoryMessage();
-	};
+		victoryMessage(currentClue, 1);
+	}else if (currentAnswer==almost){
+	    victoryMessage(almostAnswer);
+	}else{
+	    wrongAnswer();
+    };
 }//checkanswer
 		
-function wrongAnswer(a){
+function wrongAnswer(){
 	wrongAnswerCount++;
-	var pos=(wrongAnswerCount*-75) +"px"
-	$('#guesses').append("  "+a);
-	$('#hangman').css("left",pos);
-	if(wrongAnswerCount==6){
-		defeatMessage();}
+	$('#feedback').empty();
+	$('#feedback').append("<br>נסו שוב<br>");
+//	var pos=(wrongAnswerCount*-75) +"px"
+//	$('#guesses').append("  "+a);
+//	$('#hangman').css("left",pos);
+//	if(wrongAnswerCount==6){
+//		defeatMessage();}
 }//wronganswer
 		
-function victoryMessage(){
-	document.activeElement.blur();
-	$(document).off("keyup", handleKeyUp);
-	$('#feedback').append("הצלחתם!<br><br><a href='' id='replay' class='button'>המשיכו</a>");
+function victoryMessage(message, end){
+	//document.activeElement.blur();
+	//$(document).off("keyup", handleKeyUp);
+	$('#feedback').empty();
+	$('#feedback').append(message);
+    $('#feedback').append("<br><br><a id='check' class='button'>בדוק</a>");
+    $('#check').on("click",function (){
+	    //console.log('here')
+		checkAnswer();
+	});
+	if(end==1){
+	    $('#feedback').empty();
+	    $('#feedback').append(message);
+	    $('#feedback').append("<br><br><a id='replay' class='button'>המשיכו</a>");
+	}
 	$('#replay').on("click",function (){
 		if(questionBank.length>0){
-			gameScreen()}
+			finalPage()}
 		else{finalPage()}
 	});
 }//victory
@@ -145,7 +174,7 @@ function defeatMessage(){
 
 function finalPage(){
 	$('#gameContent').empty();
-	$('#gameContent').append('<div id="finalMessage">You have finished all the words in the game!</div>');
+	$('#gameContent').append('<div id="finalMessage">תודה רבה ששיחקתם יום עצמאות שמח!</div>');
 }//finalpage
 	
 	});//doc ready

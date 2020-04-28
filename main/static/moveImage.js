@@ -47,10 +47,11 @@
 //});
 
 //https://jsfiddle.net/macloo/ewag8ews/
+
 $(document).on('keydown', function(e) {
   // e stands for "event" - the event is the keypress
   // e.key means the key that was pressed
-  console.log("event: "+e.key);
+  //console.log("event: "+e.key);
   switch (e.key) {
     // left arrow pressed
     case "ArrowLeft":

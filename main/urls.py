@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from . import views
 urlpatterns = [
     path('', views.index, name='index'),
-    path('yonatan/', TemplateView.as_view(template_name="main/yom.html")),
+    path('yonatan/', TemplateView.as_view(template_name="main/map.html")),
     path('incoming_sms', views.incoming_sms, name='incoming_sms'),
     path('send_sms', views.send_sms, name='send_sms'),
     path('cancel_sms', views.cancel_sms, name='cancel_sms'),

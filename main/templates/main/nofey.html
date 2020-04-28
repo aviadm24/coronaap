@@ -1,0 +1,10 @@
+{% extends "main/yom.html" %}
+{% block task %}
+{% load static %}
+<div dir="rtl" text-align="right">
+    <h2>גלו את פתרון החידה:</h2>
+    <img src="{% static 'images/nofey.png' %}">
+    {% include "main/checkAnswer.html" %}
+</div>
+<
+{% endblock %}
