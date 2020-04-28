@@ -40,16 +40,17 @@ function gameScreen(){
 	var numberOfTiles=currentWord.length;
 	wrongAnswerCount=0;
 	previousGuesses=[];
-			 
+	//placeholders=['הפועל ב"ש','גבורה','סמל','נופים','תרבות','שיחרור']
+	placeholders=['שיחרור','תרבות','נופים','סמל','גבורה','הפועל ב"ש'];
 	for(i=0;i<numberOfTiles;i++){
 	    if (i == 2){
-	        $('#wordHolder').append('<input class="tile" id=t'+i+'>');
+	        $('#wordHolder').append('<input class="tile" id=t'+i+' placeholder='+placeholders[i]+'>');
 	        $('#wordHolder').append('<div class="tile"> - </div>');
 	    }else{
-	        $('#wordHolder').append('<input class="tile" id=t'+i+'>');
+	        $('#wordHolder').append('<input class="tile" id=t'+i+' placeholder='+placeholders[i]+'>');
 	    }
-
 	}
+
 	$('#feedback').append("<br><br><a id='check' class='button'>בדוק</a>");
 	$('#check').on("click",function (){
 	    //console.log('here')
@@ -73,7 +74,7 @@ function getWord(){
 	almostAnswer = questionBank[1][1];
 	questionBank.splice(rnd,1); 
 	wordArray=currentWord.split("");
-	console.log("word array: "+wordArray)
+	//console.log("word array: "+wordArray)
 }//getword
 			
 
@@ -90,7 +91,7 @@ function handleKeyUp(event) {
 //		var input=String.fromCharCode(event.keyCode).toLowerCase();
         var charCode = event.which; // charCode will contain the code of the character inputted
         var input = String.fromCharCode(charCode); // theChar will contain the actual character
-		console.log('key: '+ input)
+		//console.log('key: '+ input)
 		
 	
 		for(i=0;i<previousGuesses.length;i++){if(input==previousGuesses[i]){previouslyEntered=true;}}
@@ -115,10 +116,10 @@ function checkAnswer(){
 	    //console.log($('#t'+i).val())
 		currentAnswer+=($('#t'+i).val());
 	}
-	console.log(currentAnswer)
-	console.log(almost)
-	console.log(almost==currentAnswer)
-	console.log(currentWord==currentAnswer)
+	//console.log(currentAnswer)
+	//console.log(almost)
+	//console.log(almost==currentAnswer)
+	//console.log(currentWord==currentAnswer)
 	if(currentAnswer==currentWord){
 		victoryMessage(currentClue, 1);
 	}else if (currentAnswer==almost){
