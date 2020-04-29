@@ -77,8 +77,8 @@ def cancel_sms(request):
 
 def index(request):
     # https: // bootsnipp.com / snippets / ZXKKD
-    # return render(request, "main/map.html")
-    return render(request, "main/notyet.html")
+    return render(request, "main/map.html")
+    # return render(request, "main/notyet.html")
 
 
 def signup(request):
