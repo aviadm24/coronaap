@@ -2,6 +2,8 @@ from django.shortcuts import render
 import openpyxl
 # loading excel to django db
 #  https://gist.github.com/k1000/1221803/e3fac7ffb50fdeaf2b0e30538fa47d4a660092ec
+
+
 def index(request):  # based on - https://github.com/anuragrana/excel-file-upload-django
     if "GET" == request.method:
         return render(request, 'index.html', {})
