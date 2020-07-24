@@ -27,12 +27,13 @@ SECRET_KEY = ')igiu%91b%6it&&j_%c#x^*$tt^_$xq#7g8k_@u+)+2lw@b8g@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['coronaap.herokuapp.com','127.0.0.1', 'localhost',]
+ALLOWED_HOSTS = ['coronaap.herokuapp.com', '127.0.0.1', 'localhost',]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'exceldb',
     'main',
     'django_extensions',
     'django.contrib.admin',
