@@ -1,7 +1,5 @@
 from django.shortcuts import render
-import openpyxl
-# loading excel to django db
-#  https://gist.github.com/k1000/1221803/e3fac7ffb50fdeaf2b0e30538fa47d4a660092ec
+import xlrd
 
 
 def index(request):  # based on - https://github.com/anuragrana/excel-file-upload-django
@@ -9,38 +7,17 @@ def index(request):  # based on - https://github.com/anuragrana/excel-file-uploa
         return render(request, 'index.html', {})
     else:
         excel_file = request.FILES["excel_file"]
+        excel_data = []
         
-        print("***********")
-        print(type(excel_file))
-        print("***********")
+        wb = xlrd.open_workbook(file_contents=excel_file.read())
+        report_sheet = wb.sheet_by_name("CReport_Patient")
+        first_full_row = report_sheet._first_full_rowx
+        first_data_row = first_full_row + 1
+        id_col = get_col_by_name("מספר זהות")
+        status_col = get_col_by_name("סטטוס")
+        hospitalization_date_col = get_col_by_name("תאריך אשפוז")
+        release_date_col = get_col_by_name("תאריך שחרור")
         
-        
-        # you may put validations here to check extension or file size
-        wb = openpyxl.load_workbook(excel_file)
-
-        # getting all sheets
-        sheets = wb.sheetnames
-        print(sheets)
-
-        # getting a particular sheet
-        worksheet = wb["Sheet1"]
-        print(worksheet)
-
-        # getting active sheet
-        active_sheet = wb.active
-        print(active_sheet)
-
-        # reading a cell
-        print(worksheet["A1"].value)
-
-        excel_data = list()
-        # iterating over the rows and
-        # getting value from each cell in row
-        for row in worksheet.iter_rows():
-            row_data = list()
-            for cell in row:
-                row_data.append(str(cell.value))
-                print(cell.value)
-            excel_data.append(row_data)
+        excel_data.append(first_full_row, first_data_row, id_col, status_col, hospitalization_date_col, release_date_col)
 
         return render(request, 'index.html', {"excel_data": excel_data})
