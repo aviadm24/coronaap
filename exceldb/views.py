@@ -9,9 +9,13 @@ def index(request):  # based on - https://github.com/anuragrana/excel-file-uploa
         return render(request, 'index.html', {})
     else:
         excel_file = request.FILES["excel_file"]
-
+        
+        print("***********")
+        print(type(excel_file))
+        print("***********")
+        
+        
         # you may put validations here to check extension or file size
-
         wb = openpyxl.load_workbook(excel_file)
 
         # getting all sheets
