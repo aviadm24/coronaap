@@ -21,10 +21,8 @@
         <p></p>
         <hr>
 
-        {% for row in excel_data %}
-            {% for cell in row %}
-                {{ cell }}&nbsp;&nbsp;
-            {% endfor %}
+        {% for item in excel_data %}
+                {{ item }}&nbsp;&nbsp;
             <br>
         {% endfor %}
     </body>
