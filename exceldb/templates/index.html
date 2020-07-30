@@ -4,26 +4,21 @@
             Excel file upload and processing : Django Example : ThePythonDjango.Com
         </title>
     </head>
-    <body style="margin-top: 30px;margin-left: 30px;">
+    <body style="text-align: center; margin-top: 30px;">
         <form action="{% url 'exceldb:index' %}" method="post" enctype="multipart/form-data">
+            <div style="text-align: center">
+                <button style="margin-bottom: 10px; width:120px; height:25px;" onclick="document.getElementById('getFile').click()">בחר קובץ להעלאה</button>
+                <input type="file" id="getFile" style="display:none" name="excel_file" required="required">
+                <br>
+                <input type="submit" value="העלה קובץ לשרת" style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
+            </div>
             {% csrf_token %}
-            <input type="file"
-                   title="Upload excel file"
-                   name="excel_file"
-                   style="border: 1px solid black; padding: 5px;"
-                   required="required">
-            <p>
-            <input type="submit"
-                   value="Upload"
-                   style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
+            
         </form>
 
-        <p></p>
         <hr>
 
-        {% for item in excel_data %}
-                {{ item }}&nbsp;&nbsp;
+        {{ status }}&nbsp;&nbsp;
             <br>
-        {% endfor %}
     </body>
 </html>
