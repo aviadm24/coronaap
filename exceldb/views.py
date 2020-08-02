@@ -33,7 +33,6 @@ def update_google_sheet(xls_data):
     sick_sheet_ids = [record["מספר זהות"] for record in sick_sheet_records]
     healing_sheet_records = healing_sheet.get_all_records(numericise_ignore=["all"])
     healing_sheet_ids = [record["מספר זהות"] for record in healing_sheet_records]
-    LAST_COL = "Q"
     rows_to_delete_from_sick_sheet = []
     rows_to_delete_from_healing_sheet = []
     rows_to_add_to_sick_sheet = []

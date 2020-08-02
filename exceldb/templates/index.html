@@ -5,20 +5,30 @@
         </title>
     </head>
     <body style="text-align: center; margin-top: 30px;">
-        <form action="{% url 'exceldb:index' %}" method="post" enctype="multipart/form-data">
+        <form id="upload_file_form" action="{% url 'exceldb:index' %}" method="post" enctype="multipart/form-data">
             <div style="text-align: center">
                 <button style="margin-bottom: 10px; width:120px; height:25px;" onclick="document.getElementById('getFile').click()">בחר קובץ להעלאה</button>
                 <input type="file" id="getFile" style="display:none" name="excel_file" required="required">
                 <br>
-                <input type="submit" value="העלה קובץ לשרת" style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
+                <input id="submit_button" type="submit" value="העלה קובץ לשרת" style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
             </div>
             {% csrf_token %}
             
         </form>
-
+        
         <hr>
 
         {{ status }}&nbsp;&nbsp;
             <br>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#upload_file_form").submit(function (e) {
+                    //disable the submit button
+                    $("#submit_button").attr("disabled", true);
+                    return true;
+                });
+            });
+        </script>
     </body>
 </html>
