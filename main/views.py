@@ -180,6 +180,7 @@ def incoming_sms(request):
         print(post_body_uft8)
         print(data)
         print("*** End Test ***")
+        return HttpResponse("")
         # project_id, status = get_project_id_and_message(data)
         # update status in spreadsheet or exit if there"s a problem
         # if id and status in ["טופל", "ממתין", "נוצר קשר", "וידוא משימה"]:
