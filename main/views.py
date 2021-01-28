@@ -180,16 +180,16 @@ def incoming_sms(request):
         print(post_body_uft8)
         print(data)
         print("*** End Test ***")
-        project_id, status = get_project_id_and_message(data)
+        # project_id, status = get_project_id_and_message(data)
         # update status in spreadsheet or exit if there"s a problem
-        if id and status in ["טופל", "ממתין", "נוצר קשר", "וידוא משימה"]:
-            print("Incoming SMS with ID: {}, Status: {}".format(project_id, status))
-            update_spreadsheet(id=project_id, status=status)
-        else:
-            print("Invalid SMS")
-            return HttpResponse("")
+        # if id and status in ["טופל", "ממתין", "נוצר קשר", "וידוא משימה"]:
+            # print("Incoming SMS with ID: {}, Status: {}".format(project_id, status))
+            # update_spreadsheet(id=project_id, status=status)
+        # else:
+            # print("Invalid SMS")
+            # return HttpResponse("")
 
         # if task was completed - cancel an SMS reminder (if exists)
-        if status == "טופל":
-            cancel_sms_by_project_id(project_id)
-        return HttpResponse("")
+        # if status == "טופל":
+            # cancel_sms_by_project_id(project_id)
+        # return HttpResponse("")
